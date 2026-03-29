@@ -1,0 +1,1097 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Serenova Health Clinic</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --sage: #4a7c59;
+      --sage-light: #6b9e7a;
+      --sage-pale: #e8f0eb;
+      --cream: #faf8f4;
+      --warm-white: #f5f2ed;
+      --charcoal: #1e2420;
+      --text: #2d3b33;
+      --text-muted: #6b7c71;
+      --border: #d6e0d9;
+      --gold: #b89a5e;
+      --red: #c0392b;
+      --shadow-sm: 0 2px 12px rgba(30,36,32,0.07);
+      --shadow-md: 0 8px 32px rgba(30,36,32,0.10);
+      --shadow-lg: 0 20px 60px rgba(30,36,32,0.13);
+      --r: 14px;
+      --r-sm: 8px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--cream);
+      color: var(--text);
+      font-size: 16px;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* ─── NAV ─── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 999;
+      background: rgba(250,248,244,0.92);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+      transition: box-shadow 0.3s;
+    }
+    nav.scrolled { box-shadow: var(--shadow-sm); }
+
+    .nav-inner {
+      max-width: 1200px; margin: auto;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 24px; height: 68px;
+    }
+
+    .logo {
+      display: flex; align-items: center; gap: 10px;
+      text-decoration: none; color: var(--charcoal);
+    }
+    .logo-icon {
+      width: 36px; height: 36px;
+      background: var(--sage);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .logo-icon svg { width: 18px; height: 18px; fill: white; }
+    .logo-text { font-family: 'Cormorant Garamond', serif; font-size: 1.25rem; font-weight: 600; letter-spacing: 0.01em; }
+    .logo-sub { font-size: 0.65rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-muted); line-height: 1; }
+
+    .nav-links { display: flex; gap: 32px; list-style: none; }
+    .nav-links a { text-decoration: none; color: var(--text-muted); font-size: 0.88rem; font-weight: 500; transition: color 0.2s; }
+    .nav-links a:hover { color: var(--sage); }
+
+    .nav-cta {
+      background: var(--sage); color: white;
+      border: none; border-radius: 30px;
+      padding: 10px 22px; font-size: 0.88rem; font-weight: 500;
+      cursor: pointer; text-decoration: none;
+      transition: background 0.2s, transform 0.15s;
+      font-family: 'DM Sans', sans-serif;
+    }
+    .nav-cta:hover { background: var(--sage-light); transform: translateY(-1px); }
+
+    .burger {
+      display: none; flex-direction: column; gap: 5px;
+      background: none; border: none; cursor: pointer; padding: 4px;
+    }
+    .burger span { width: 24px; height: 2px; background: var(--charcoal); border-radius: 2px; transition: all 0.3s; display: block; }
+
+    .mobile-menu {
+      display: none; position: fixed; top: 68px; left: 0; right: 0; bottom: 0;
+      background: var(--cream); z-index: 998; padding: 32px 24px;
+      flex-direction: column; gap: 24px;
+    }
+    .mobile-menu.open { display: flex; }
+    .mobile-menu a { text-decoration: none; color: var(--text); font-size: 1.1rem; font-weight: 500; padding: 12px 0; border-bottom: 1px solid var(--border); }
+    .mobile-menu .nav-cta { text-align: center; margin-top: 8px; display: block; }
+
+    /* ─── HERO ─── */
+    .hero {
+      min-height: 100vh;
+      display: flex; align-items: center;
+      padding: 100px 24px 60px;
+      position: relative; overflow: hidden;
+    }
+    .hero-bg {
+      position: absolute; inset: 0; z-index: 0;
+      background: linear-gradient(135deg, var(--cream) 0%, #eef4f0 60%, #ddeae2 100%);
+    }
+    .hero-blob {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(80px);
+      opacity: 0.35;
+      pointer-events: none;
+    }
+    .hero-blob-1 { width: 520px; height: 520px; background: #b2d4bd; top: -100px; right: -100px; }
+    .hero-blob-2 { width: 360px; height: 360px; background: #d4e8b2; bottom: 0; left: -80px; }
+
+    .hero-inner {
+      max-width: 1200px; margin: auto; width: 100%;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center;
+      position: relative; z-index: 1;
+    }
+
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: white; border: 1px solid var(--border);
+      border-radius: 30px; padding: 6px 16px 6px 8px;
+      font-size: 0.78rem; font-weight: 500; color: var(--sage);
+      margin-bottom: 24px; box-shadow: var(--shadow-sm);
+    }
+    .hero-badge-dot { width: 8px; height: 8px; background: var(--sage); border-radius: 50%; animation: pulse 2s infinite; }
+    @keyframes pulse { 0%,100% { opacity:1; } 50% { opacity:0.4; } }
+
+    .hero-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2.6rem, 5vw, 4rem);
+      font-weight: 300; line-height: 1.15;
+      color: var(--charcoal); margin-bottom: 20px;
+    }
+    .hero-title em { font-style: italic; color: var(--sage); }
+    .hero-subtitle { font-size: 1rem; color: var(--text-muted); line-height: 1.7; margin-bottom: 36px; max-width: 440px; }
+
+    .hero-actions { display: flex; gap: 16px; flex-wrap: wrap; }
+    .btn-primary {
+      background: var(--sage); color: white;
+      padding: 14px 28px; border-radius: 30px;
+      font-size: 0.95rem; font-weight: 500; text-decoration: none;
+      border: none; cursor: pointer; font-family: 'DM Sans', sans-serif;
+      transition: all 0.2s; box-shadow: 0 4px 20px rgba(74,124,89,0.3);
+      display: inline-block;
+    }
+    .btn-primary:hover { background: var(--sage-light); transform: translateY(-2px); box-shadow: 0 8px 28px rgba(74,124,89,0.35); }
+    .btn-secondary {
+      background: transparent; color: var(--text);
+      padding: 14px 28px; border-radius: 30px;
+      font-size: 0.95rem; font-weight: 500; text-decoration: none;
+      border: 1.5px solid var(--border); cursor: pointer; font-family: 'DM Sans', sans-serif;
+      transition: all 0.2s; display: inline-block;
+    }
+    .btn-secondary:hover { border-color: var(--sage); color: var(--sage); }
+
+    .hero-stats {
+      display: flex; gap: 32px; margin-top: 48px; padding-top: 36px;
+      border-top: 1px solid var(--border);
+    }
+    .stat-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2rem; font-weight: 600; color: var(--charcoal); line-height: 1;
+    }
+    .stat-label { font-size: 0.78rem; color: var(--text-muted); margin-top: 4px; }
+
+    .hero-image-wrap {
+      position: relative; display: flex; justify-content: center;
+    }
+    .hero-card-main {
+      width: 100%; max-width: 420px;
+      background: white; border-radius: 24px;
+      padding: 32px; box-shadow: var(--shadow-lg);
+      position: relative; z-index: 2;
+    }
+    .doctor-avatar {
+      width: 72px; height: 72px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--sage-pale), var(--sage));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.8rem; margin-bottom: 16px;
+    }
+    .doc-name { font-family: 'Cormorant Garamond', serif; font-size: 1.3rem; font-weight: 600; }
+    .doc-spec { font-size: 0.82rem; color: var(--sage); font-weight: 500; margin-bottom: 16px; }
+    .doc-rating { display: flex; align-items: center; gap: 6px; font-size: 0.82rem; color: var(--text-muted); margin-bottom: 20px; }
+    .stars { color: var(--gold); letter-spacing: -1px; }
+    .availability-row { display: flex; align-items: center; justify-content: space-between; font-size: 0.82rem; }
+    .avail-badge { display: flex; align-items: center; gap: 6px; color: var(--sage); font-weight: 500; }
+    .avail-dot { width: 7px; height: 7px; background: var(--sage); border-radius: 50%; }
+    .next-slot { color: var(--text-muted); }
+
+    .floating-card {
+      position: absolute;
+      background: white; border-radius: 16px;
+      padding: 14px 18px; box-shadow: var(--shadow-md);
+      font-size: 0.82rem; z-index: 3;
+    }
+    .fc-1 { bottom: -24px; left: -20px; }
+    .fc-2 { top: -20px; right: -16px; }
+    .fc-icon { font-size: 1.2rem; margin-bottom: 4px; }
+    .fc-val { font-weight: 600; color: var(--charcoal); }
+    .fc-lbl { color: var(--text-muted); }
+
+    /* ─── SECTION BASE ─── */
+    section { padding: 80px 24px; }
+    .section-inner { max-width: 1200px; margin: auto; }
+    .section-label {
+      font-size: 0.75rem; letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--sage); font-weight: 500; margin-bottom: 12px;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .section-label::before { content: ''; width: 24px; height: 1.5px; background: var(--sage); display: block; }
+    .section-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2rem, 4vw, 2.8rem); font-weight: 300;
+      color: var(--charcoal); line-height: 1.2; margin-bottom: 16px;
+    }
+    .section-desc { color: var(--text-muted); font-size: 0.95rem; max-width: 560px; line-height: 1.7; }
+
+    /* ─── SERVICES ─── */
+    .services-bg { background: var(--warm-white); }
+    .services-header { display: flex; align-items: flex-end; justify-content: space-between; gap: 32px; margin-bottom: 48px; flex-wrap: wrap; }
+    .services-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+
+    .service-card {
+      background: white; border-radius: var(--r); padding: 28px 24px;
+      border: 1px solid var(--border); transition: all 0.3s;
+      cursor: default;
+    }
+    .service-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); border-color: var(--sage); }
+    .service-icon {
+      width: 52px; height: 52px; border-radius: 14px;
+      background: var(--sage-pale); display: flex; align-items: center; justify-content: center;
+      font-size: 1.4rem; margin-bottom: 20px;
+    }
+    .service-title { font-weight: 600; color: var(--charcoal); margin-bottom: 8px; }
+    .service-desc { font-size: 0.85rem; color: var(--text-muted); line-height: 1.6; margin-bottom: 16px; }
+    .service-link { font-size: 0.82rem; color: var(--sage); font-weight: 500; text-decoration: none; display: flex; align-items: center; gap: 4px; }
+    .service-link:hover { gap: 8px; }
+
+    /* ─── DOCTORS ─── */
+    .doctors-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; margin-top: 48px; }
+    .doctor-card {
+      background: white; border-radius: var(--r); overflow: hidden;
+      border: 1px solid var(--border); transition: all 0.3s;
+    }
+    .doctor-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); }
+    .doctor-img {
+      height: 180px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 3rem;
+    }
+    .doc-bg-1 { background: linear-gradient(135deg, #d4eada, #a8c9b0); }
+    .doc-bg-2 { background: linear-gradient(135deg, #d4dcea, #a8b5c9); }
+    .doc-bg-3 { background: linear-gradient(135deg, #ead4d4, #c9a8a8); }
+    .doc-bg-4 { background: linear-gradient(135deg, #ead4bc, #c9aa88); }
+    .doctor-info { padding: 20px; }
+    .doctor-name { font-family: 'Cormorant Garamond', serif; font-size: 1.15rem; font-weight: 600; color: var(--charcoal); }
+    .doctor-spec-tag { font-size: 0.75rem; color: var(--sage); font-weight: 500; margin: 4px 0 10px; }
+    .doctor-meta { display: flex; justify-content: space-between; font-size: 0.78rem; color: var(--text-muted); padding-top: 12px; border-top: 1px solid var(--border); }
+
+    /* ─── WHY US ─── */
+    .why-bg { background: var(--charcoal); color: white; }
+    .why-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+    .why-bg .section-label { color: var(--sage-light); }
+    .why-bg .section-label::before { background: var(--sage-light); }
+    .why-bg .section-title { color: white; }
+    .why-bg .section-desc { color: #9aab9f; }
+    .why-list { margin-top: 36px; display: flex; flex-direction: column; gap: 20px; }
+    .why-item { display: flex; gap: 16px; align-items: flex-start; }
+    .why-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.8rem; font-weight: 300; color: var(--sage-light);
+      line-height: 1; flex-shrink: 0; width: 40px;
+    }
+    .why-item-text h4 { font-weight: 500; color: white; margin-bottom: 4px; }
+    .why-item-text p { font-size: 0.85rem; color: #7a8c80; line-height: 1.6; }
+
+    .why-visual {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
+    }
+    .why-visual-card {
+      background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1);
+      border-radius: var(--r); padding: 24px; transition: all 0.3s;
+    }
+    .why-visual-card:hover { background: rgba(255,255,255,0.1); }
+    .why-visual-card:first-child { grid-column: span 2; }
+    .wvc-icon { font-size: 1.8rem; margin-bottom: 12px; }
+    .wvc-val { font-family: 'Cormorant Garamond', serif; font-size: 2rem; font-weight: 600; color: white; }
+    .wvc-label { font-size: 0.8rem; color: #7a8c80; margin-top: 4px; }
+
+    /* ─── APPOINTMENT FORM ─── */
+    .form-section { background: var(--cream); }
+    .form-wrap {
+      display: grid; grid-template-columns: 1fr 1.4fr; gap: 64px; align-items: start;
+      margin-top: 16px;
+    }
+    .form-info-item { display: flex; align-items: flex-start; gap: 14px; margin-bottom: 24px; }
+    .fii-icon {
+      width: 44px; height: 44px; border-radius: 12px;
+      background: var(--sage-pale); display: flex; align-items: center;
+      justify-content: center; font-size: 1.1rem; flex-shrink: 0;
+    }
+    .fii-title { font-weight: 600; color: var(--charcoal); font-size: 0.92rem; }
+    .fii-text { font-size: 0.82rem; color: var(--text-muted); line-height: 1.5; }
+    .hours-table { margin-top: 32px; background: white; border-radius: var(--r); padding: 20px; border: 1px solid var(--border); }
+    .hours-table h4 { font-weight: 600; margin-bottom: 14px; font-size: 0.92rem; }
+    .hours-row { display: flex; justify-content: space-between; font-size: 0.82rem; padding: 7px 0; border-bottom: 1px solid var(--border); color: var(--text-muted); }
+    .hours-row:last-child { border: none; }
+    .hours-row .open { color: var(--sage); font-weight: 500; }
+    .hours-row .closed { color: var(--red); }
+
+    /* Form Card */
+    .appt-form-card {
+      background: white; border-radius: 24px; padding: 40px;
+      box-shadow: var(--shadow-md); border: 1px solid var(--border);
+    }
+    .appt-form-card h3 {
+      font-family: 'Cormorant Garamond', serif; font-size: 1.6rem;
+      font-weight: 500; color: var(--charcoal); margin-bottom: 6px;
+    }
+    .appt-form-card p { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 28px; }
+
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .form-group { margin-bottom: 18px; }
+    .form-group label { display: block; font-size: 0.82rem; font-weight: 500; color: var(--text); margin-bottom: 6px; }
+    .form-group label span { color: var(--red); margin-left: 2px; }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      width: 100%; padding: 12px 16px;
+      border: 1.5px solid var(--border); border-radius: var(--r-sm);
+      font-size: 0.9rem; color: var(--text); background: var(--cream);
+      font-family: 'DM Sans', sans-serif;
+      transition: border-color 0.2s, box-shadow 0.2s; outline: none;
+      -webkit-appearance: none; appearance: none;
+    }
+    .form-group select {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%236b7c71' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat; background-position: right 14px center;
+      padding-right: 40px; cursor: pointer;
+    }
+    .form-group textarea { resize: vertical; min-height: 100px; }
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      border-color: var(--sage);
+      box-shadow: 0 0 0 3px rgba(74,124,89,0.12);
+      background: white;
+    }
+    .form-group input::placeholder,
+    .form-group textarea::placeholder { color: #b0bdb4; }
+    .form-group input.error,
+    .form-group select.error,
+    .form-group textarea.error { border-color: var(--red); }
+    .error-msg { font-size: 0.75rem; color: var(--red); margin-top: 4px; display: none; }
+    .error-msg.show { display: block; }
+
+    .form-submit {
+      width: 100%; padding: 15px;
+      background: var(--sage); color: white;
+      border: none; border-radius: 30px;
+      font-size: 0.95rem; font-weight: 500;
+      cursor: pointer; font-family: 'DM Sans', sans-serif;
+      transition: all 0.2s; margin-top: 8px;
+      box-shadow: 0 4px 20px rgba(74,124,89,0.3);
+    }
+    .form-submit:hover { background: var(--sage-light); transform: translateY(-1px); }
+    .form-submit:active { transform: scale(0.99); }
+    .form-submit:disabled { background: #b0bdb4; cursor: not-allowed; transform: none; box-shadow: none; }
+
+    .form-success {
+      display: none; text-align: center; padding: 40px 20px;
+    }
+    .form-success.show { display: block; }
+    .success-icon {
+      width: 72px; height: 72px; border-radius: 50%;
+      background: var(--sage-pale); display: flex; align-items: center;
+      justify-content: center; font-size: 2rem; margin: 0 auto 20px;
+    }
+    .form-success h4 { font-family: 'Cormorant Garamond', serif; font-size: 1.5rem; margin-bottom: 8px; }
+    .form-success p { color: var(--text-muted); font-size: 0.88rem; }
+
+    /* ─── TESTIMONIALS ─── */
+    .testimonials-bg { background: var(--warm-white); }
+    .testimonials-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 48px; }
+    .testimonial-card {
+      background: white; border-radius: var(--r); padding: 28px;
+      border: 1px solid var(--border); transition: all 0.3s;
+    }
+    .testimonial-card:hover { box-shadow: var(--shadow-md); transform: translateY(-3px); }
+    .t-stars { color: var(--gold); margin-bottom: 14px; font-size: 0.95rem; }
+    .t-quote { font-size: 0.9rem; color: var(--text); line-height: 1.7; margin-bottom: 20px; font-style: italic; }
+    .t-author { display: flex; align-items: center; gap: 12px; }
+    .t-avatar { width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; }
+    .t-av-1 { background: #d4eada; }
+    .t-av-2 { background: #d4dcea; }
+    .t-av-3 { background: #ead4d4; }
+    .t-name { font-weight: 600; font-size: 0.88rem; color: var(--charcoal); }
+    .t-since { font-size: 0.75rem; color: var(--text-muted); }
+
+    /* ─── FOOTER ─── */
+    footer {
+      background: var(--charcoal); color: white;
+      padding: 64px 24px 32px;
+    }
+    .footer-inner { max-width: 1200px; margin: auto; }
+    .footer-top { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 48px; margin-bottom: 48px; }
+    .footer-brand { }
+    .footer-logo { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; }
+    .footer-logo-text { font-family: 'Cormorant Garamond', serif; font-size: 1.2rem; font-weight: 600; }
+    .footer-tagline { font-size: 0.85rem; color: #7a8c80; line-height: 1.6; max-width: 280px; }
+    .footer-col h5 { font-size: 0.82rem; letter-spacing: 0.1em; text-transform: uppercase; color: #5a6d60; margin-bottom: 16px; font-weight: 500; }
+    .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    .footer-col ul a { color: #9aab9f; font-size: 0.85rem; text-decoration: none; transition: color 0.2s; }
+    .footer-col ul a:hover { color: white; }
+    .footer-bottom { border-top: 1px solid rgba(255,255,255,0.08); padding-top: 28px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
+    .footer-copy { font-size: 0.8rem; color: #5a6d60; }
+    .footer-links { display: flex; gap: 20px; }
+    .footer-links a { font-size: 0.8rem; color: #5a6d60; text-decoration: none; transition: color 0.2s; }
+    .footer-links a:hover { color: #9aab9f; }
+
+    /* ─── SCROLL ANIMATIONS ─── */
+    .fade-up {
+      opacity: 0; transform: translateY(28px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .fade-up.visible { opacity: 1; transform: translateY(0); }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 900px) {
+      .nav-links, .nav-cta { display: none; }
+      .burger { display: flex; }
+      .hero-inner { grid-template-columns: 1fr; gap: 40px; }
+      .hero-image-wrap { display: none; }
+      .services-grid { grid-template-columns: 1fr 1fr; }
+      .doctors-grid { grid-template-columns: 1fr 1fr; }
+      .why-inner { grid-template-columns: 1fr; gap: 40px; }
+      .form-wrap { grid-template-columns: 1fr; gap: 40px; }
+      .testimonials-grid { grid-template-columns: 1fr; }
+      .footer-top { grid-template-columns: 1fr 1fr; gap: 32px; }
+      .footer-brand { grid-column: span 2; }
+    }
+
+    @media (max-width: 580px) {
+      section { padding: 60px 16px; }
+      .services-grid { grid-template-columns: 1fr; }
+      .doctors-grid { grid-template-columns: 1fr; }
+      .form-row { grid-template-columns: 1fr; }
+      .appt-form-card { padding: 24px 20px; }
+      .hero-stats { gap: 20px; flex-wrap: wrap; }
+      .footer-top { grid-template-columns: 1fr; }
+      .footer-brand { grid-column: span 1; }
+      .why-visual { grid-template-columns: 1fr; }
+      .why-visual-card:first-child { grid-column: span 1; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="navbar">
+  <div class="nav-inner">
+    <a href="#" class="logo">
+      <div class="logo-icon">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 14h-2v-2h2v2zm0-4h-2V7h2v5z" opacity="0"/><path d="M11 7h2v5h-2zm0 7h2v2h-2zM8 11h2v2H8zm6 0h2v2h-2z"/><rect x="11" y="3" width="2" height="18" rx="1"/><rect x="3" y="11" width="18" height="2" rx="1"/></svg>
+      </div>
+      <div>
+        <div class="logo-text">Serenova</div>
+        <div class="logo-sub">Health Clinic</div>
+      </div>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#services">Services</a></li>
+      <li><a href="#doctors">Doctors</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#testimonials">Reviews</a></li>
+    </ul>
+    <a href="#appointment" class="nav-cta">Book Appointment</a>
+    <button class="burger" id="burger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#services" onclick="closeMobileMenu()">Services</a>
+  <a href="#doctors" onclick="closeMobileMenu()">Doctors</a>
+  <a href="#about" onclick="closeMobileMenu()">About</a>
+  <a href="#testimonials" onclick="closeMobileMenu()">Reviews</a>
+  <a href="#appointment" class="nav-cta" onclick="closeMobileMenu()">Book Appointment</a>
+</div>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-bg">
+    <div class="hero-blob hero-blob-1"></div>
+    <div class="hero-blob hero-blob-2"></div>
+  </div>
+  <div class="hero-inner">
+    <div>
+      <div class="hero-badge fade-up visible">
+        <span class="hero-badge-dot"></span>
+        Accepting New Patients
+      </div>
+      <h1 class="hero-title fade-up visible" style="transition-delay:0.1s">
+        Your Health,<br><em>Our Priority</em>
+      </h1>
+      <p class="hero-subtitle fade-up visible" style="transition-delay:0.2s">
+        Compassionate, evidence-based care delivered by a team of experienced physicians. We're here for every stage of your health journey.
+      </p>
+      <div class="hero-actions fade-up visible" style="transition-delay:0.3s">
+        <a href="#appointment" class="btn-primary">Book Appointment</a>
+        <a href="#doctors" class="btn-secondary">Meet Our Doctors</a>
+      </div>
+      <div class="hero-stats fade-up visible" style="transition-delay:0.4s">
+        <div>
+          <div class="stat-num">15+</div>
+          <div class="stat-label">Years of Care</div>
+        </div>
+        <div>
+          <div class="stat-num">8,000+</div>
+          <div class="stat-label">Happy Patients</div>
+        </div>
+        <div>
+          <div class="stat-num">12</div>
+          <div class="stat-label">Specialists</div>
+        </div>
+      </div>
+    </div>
+    <div class="hero-image-wrap fade-up visible" style="transition-delay:0.25s">
+      <div class="hero-card-main">
+        <div class="doctor-avatar">👨‍⚕️</div>
+        <div class="doc-name">Dr. Arjun Mehta</div>
+        <div class="doc-spec">Chief of Internal Medicine</div>
+        <div class="doc-rating">
+          <span class="stars">★★★★★</span>
+          4.9 · 312 reviews
+        </div>
+        <div class="availability-row">
+          <div class="avail-badge"><span class="avail-dot"></span> Available Today</div>
+          <div class="next-slot">Next slot: 2:30 PM</div>
+        </div>
+      </div>
+      <div class="floating-card fc-1">
+        <div class="fc-icon">🏥</div>
+        <div class="fc-val">ISO Certified</div>
+        <div class="fc-lbl">Accredited Facility</div>
+      </div>
+      <div class="floating-card fc-2">
+        <div class="fc-icon">⚡</div>
+        <div class="fc-val">&lt; 10 min</div>
+        <div class="fc-lbl">Avg. Wait Time</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section class="services-bg" id="services">
+  <div class="section-inner">
+    <div class="services-header">
+      <div>
+        <div class="section-label">What We Offer</div>
+        <h2 class="section-title">Comprehensive<br>Medical Services</h2>
+        <p class="section-desc">From routine check-ups to specialized treatments, our clinic offers a wide range of healthcare services under one roof.</p>
+      </div>
+    </div>
+    <div class="services-grid">
+      <div class="service-card fade-up">
+        <div class="service-icon">🩺</div>
+        <div class="service-title">General Medicine</div>
+        <div class="service-desc">Comprehensive primary care for all ages. From colds to chronic disease management, we've got you covered.</div>
+        <a href="#appointment" class="service-link">Book now →</a>
+      </div>
+      <div class="service-card fade-up">
+        <div class="service-icon">❤️</div>
+        <div class="service-title">Cardiology</div>
+        <div class="service-desc">Advanced heart health diagnostics and management with state-of-the-art ECG and monitoring facilities.</div>
+        <a href="#appointment" class="service-link">Book now →</a>
+      </div>
+      <div class="service-card fade-up">
+        <div class="service-icon">🧠</div>
+        <div class="service-title">Neurology</div>
+        <div class="service-desc">Expert care for neurological conditions including migraines, epilepsy, and cognitive disorders.</div>
+        <a href="#appointment" class="service-link">Book now →</a>
+      </div>
+      <div class="service-card fade-up">
+        <div class="service-icon">🦴</div>
+        <div class="service-title">Orthopaedics</div>
+        <div class="service-desc">Bone, joint, and muscle care — from sports injuries to arthritis and post-surgical rehabilitation.</div>
+        <a href="#appointment" class="service-link">Book now →</a>
+      </div>
+      <div class="service-card fade-up">
+        <div class="service-icon">👶</div>
+        <div class="service-title">Paediatrics</div>
+        <div class="service-desc">Gentle, specialized care for infants, children, and adolescents with a child-friendly environment.</div>
+        <a href="#appointment" class="service-link">Book now →</a>
+      </div>
+      <div class="service-card fade-up">
+        <div class="service-icon">🔬</div>
+        <div class="service-title">Diagnostics & Lab</div>
+        <div class="service-desc">In-house laboratory and imaging services with rapid turnaround for bloodwork, X-rays, and ultrasounds.</div>
+        <a href="#appointment" class="service-link">Book now →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DOCTORS -->
+<section id="doctors">
+  <div class="section-inner">
+    <div class="section-label">Our Team</div>
+    <h2 class="section-title">Meet Our Specialists</h2>
+    <p class="section-desc">Our multi-disciplinary team of board-certified physicians brings decades of combined expertise to your care.</p>
+    <div class="doctors-grid">
+      <div class="doctor-card fade-up">
+        <div class="doctor-img doc-bg-1">👨‍⚕️</div>
+        <div class="doctor-info">
+          <div class="doctor-name">Dr. Arjun Mehta</div>
+          <div class="doctor-spec-tag">Internal Medicine</div>
+          <div class="doctor-meta">
+            <span>⭐ 4.9</span>
+            <span>18 yrs exp.</span>
+          </div>
+        </div>
+      </div>
+      <div class="doctor-card fade-up">
+        <div class="doctor-img doc-bg-2">👩‍⚕️</div>
+        <div class="doctor-info">
+          <div class="doctor-name">Dr. Priya Nair</div>
+          <div class="doctor-spec-tag">Cardiologist</div>
+          <div class="doctor-meta">
+            <span>⭐ 4.8</span>
+            <span>14 yrs exp.</span>
+          </div>
+        </div>
+      </div>
+      <div class="doctor-card fade-up">
+        <div class="doctor-img doc-bg-3">👨‍⚕️</div>
+        <div class="doctor-info">
+          <div class="doctor-name">Dr. Rohan Shah</div>
+          <div class="doctor-spec-tag">Neurologist</div>
+          <div class="doctor-meta">
+            <span>⭐ 4.9</span>
+            <span>12 yrs exp.</span>
+          </div>
+        </div>
+      </div>
+      <div class="doctor-card fade-up">
+        <div class="doctor-img doc-bg-4">👩‍⚕️</div>
+        <div class="doctor-info">
+          <div class="doctor-name">Dr. Anita Desai</div>
+          <div class="doctor-spec-tag">Paediatrician</div>
+          <div class="doctor-meta">
+            <span>⭐ 5.0</span>
+            <span>10 yrs exp.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHY US -->
+<section class="why-bg" id="about">
+  <div class="section-inner">
+    <div class="why-inner">
+      <div>
+        <div class="section-label">Why Choose Us</div>
+        <h2 class="section-title">Healthcare Built Around <em style="color: var(--sage-light);">You</em></h2>
+        <p class="section-desc">We combine clinical excellence with genuine warmth to deliver care that feels personal, not transactional.</p>
+        <div class="why-list">
+          <div class="why-item fade-up">
+            <div class="why-num">01</div>
+            <div class="why-item-text">
+              <h4>Same-Day Appointments</h4>
+              <p>No long waits. Book online or call us and often see a doctor the same day.</p>
+            </div>
+          </div>
+          <div class="why-item fade-up">
+            <div class="why-num">02</div>
+            <div class="why-item-text">
+              <h4>Integrated Care Team</h4>
+              <p>Specialists collaborate seamlessly so you get a unified treatment plan.</p>
+            </div>
+          </div>
+          <div class="why-item fade-up">
+            <div class="why-num">03</div>
+            <div class="why-item-text">
+              <h4>Transparent Pricing</h4>
+              <p>Clear, upfront costs with insurance support and flexible payment options.</p>
+            </div>
+          </div>
+          <div class="why-item fade-up">
+            <div class="why-num">04</div>
+            <div class="why-item-text">
+              <h4>Digital Health Records</h4>
+              <p>Access your reports, prescriptions, and visit history anytime via our patient portal.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="why-visual fade-up">
+        <div class="why-visual-card">
+          <div class="wvc-icon">🏆</div>
+          <div class="wvc-val">Best Clinic Award</div>
+          <div class="wvc-label">Maharashtra Healthcare Awards, 2023 & 2024</div>
+        </div>
+        <div class="why-visual-card">
+          <div class="wvc-icon">😊</div>
+          <div class="wvc-val">98%</div>
+          <div class="wvc-label">Patient satisfaction</div>
+        </div>
+        <div class="why-visual-card">
+          <div class="wvc-icon">⏱️</div>
+          <div class="wvc-val">&lt;10 min</div>
+          <div class="wvc-label">Average wait time</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- APPOINTMENT FORM -->
+<section class="form-section" id="appointment">
+  <div class="section-inner">
+    <div class="section-label">Get Started</div>
+    <h2 class="section-title">Book Your Appointment</h2>
+    <div class="form-wrap">
+      <div>
+        <p class="section-desc" style="margin-bottom:32px">Reach out to us through any of the channels below or fill out the form to schedule your visit.</p>
+        <div class="form-info-item fade-up">
+          <div class="fii-icon">📍</div>
+          <div>
+            <div class="fii-title">Our Location</div>
+            <div class="fii-text">12, Koregaon Park Road,<br>Pune, Maharashtra 411001</div>
+          </div>
+        </div>
+        <div class="form-info-item fade-up">
+          <div class="fii-icon">📞</div>
+          <div>
+            <div class="fii-title">Phone</div>
+            <div class="fii-text">+91 98765 43210<br>Emergency: 1800-000-111</div>
+          </div>
+        </div>
+        <div class="form-info-item fade-up">
+          <div class="fii-icon">✉️</div>
+          <div>
+            <div class="fii-title">Email</div>
+            <div class="fii-text">appointments@serenovahealth.in</div>
+          </div>
+        </div>
+        <div class="hours-table fade-up">
+          <h4>Clinic Hours</h4>
+          <div class="hours-row"><span>Monday – Friday</span><span class="open">8:00 AM – 8:00 PM</span></div>
+          <div class="hours-row"><span>Saturday</span><span class="open">9:00 AM – 5:00 PM</span></div>
+          <div class="hours-row"><span>Sunday</span><span class="open">10:00 AM – 2:00 PM</span></div>
+          <div class="hours-row"><span>Public Holidays</span><span class="closed">Closed</span></div>
+        </div>
+      </div>
+
+      <!-- FORM -->
+      <div class="appt-form-card fade-up">
+        <h3>Request an Appointment</h3>
+        <p>We'll confirm your booking within 2 hours during clinic hours.</p>
+
+        <div id="formContent">
+          <div class="form-row">
+            <div class="form-group">
+              <label>First Name <span>*</span></label>
+              <input type="text" id="firstName" placeholder="Rahul" autocomplete="given-name">
+              <div class="error-msg" id="firstNameErr">Please enter your first name.</div>
+            </div>
+            <div class="form-group">
+              <label>Last Name <span>*</span></label>
+              <input type="text" id="lastName" placeholder="Sharma" autocomplete="family-name">
+              <div class="error-msg" id="lastNameErr">Please enter your last name.</div>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Phone Number <span>*</span></label>
+              <input type="tel" id="phone" placeholder="+91 98765 43210" autocomplete="tel">
+              <div class="error-msg" id="phoneErr">Enter a valid phone number.</div>
+            </div>
+            <div class="form-group">
+              <label>Email Address</label>
+              <input type="email" id="email" placeholder="rahul@email.com" autocomplete="email">
+              <div class="error-msg" id="emailErr">Enter a valid email address.</div>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Department <span>*</span></label>
+              <select id="department">
+                <option value="">Select Department</option>
+                <option>General Medicine</option>
+                <option>Cardiology</option>
+                <option>Neurology</option>
+                <option>Orthopaedics</option>
+                <option>Paediatrics</option>
+                <option>Diagnostics & Lab</option>
+              </select>
+              <div class="error-msg" id="deptErr">Please select a department.</div>
+            </div>
+            <div class="form-group">
+              <label>Preferred Doctor</label>
+              <select id="doctor">
+                <option value="">No Preference</option>
+                <option>Dr. Arjun Mehta</option>
+                <option>Dr. Priya Nair</option>
+                <option>Dr. Rohan Shah</option>
+                <option>Dr. Anita Desai</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Preferred Date <span>*</span></label>
+              <input type="date" id="apptDate">
+              <div class="error-msg" id="dateErr">Please select a valid date.</div>
+            </div>
+            <div class="form-group">
+              <label>Preferred Time <span>*</span></label>
+              <select id="apptTime">
+                <option value="">Select Time</option>
+                <option>8:00 AM – 9:00 AM</option>
+                <option>9:00 AM – 10:00 AM</option>
+                <option>10:00 AM – 11:00 AM</option>
+                <option>11:00 AM – 12:00 PM</option>
+                <option>2:00 PM – 3:00 PM</option>
+                <option>3:00 PM – 4:00 PM</option>
+                <option>4:00 PM – 5:00 PM</option>
+                <option>6:00 PM – 7:00 PM</option>
+              </select>
+              <div class="error-msg" id="timeErr">Please select a time slot.</div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Reason for Visit / Symptoms</label>
+            <textarea id="reason" placeholder="Briefly describe your symptoms or the reason for your visit..."></textarea>
+          </div>
+          <button class="form-submit" id="submitBtn" onclick="submitForm()">
+            Confirm Appointment Request
+          </button>
+        </div>
+
+        <div class="form-success" id="formSuccess">
+          <div class="success-icon">✅</div>
+          <h4>Appointment Requested!</h4>
+          <p>Thank you. Our team will confirm your slot via phone or email within 2 hours during clinic hours.</p>
+          <br>
+          <button class="btn-secondary" style="cursor:pointer;border:none;background:var(--sage-pale);color:var(--sage);padding:10px 24px;border-radius:30px;font-family:'DM Sans',sans-serif;font-size:0.88rem;font-weight:500;" onclick="resetForm()">Book Another Appointment</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testimonials-bg" id="testimonials">
+  <div class="section-inner">
+    <div class="section-label">Patient Stories</div>
+    <h2 class="section-title">What Our Patients Say</h2>
+    <div class="testimonials-grid">
+      <div class="testimonial-card fade-up">
+        <div class="t-stars">★★★★★</div>
+        <p class="t-quote">"The team at Serenova is exceptional. Dr. Mehta took the time to actually listen and explain everything clearly. Best clinic experience I've ever had."</p>
+        <div class="t-author">
+          <div class="t-avatar t-av-1">🧑</div>
+          <div>
+            <div class="t-name">Vikas Patel</div>
+            <div class="t-since">Patient since 2021</div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial-card fade-up">
+        <div class="t-stars">★★★★★</div>
+        <p class="t-quote">"I brought my 3-year-old to Dr. Desai and she was absolutely wonderful with him. The clinic is clean, modern, and the wait time was minimal."</p>
+        <div class="t-author">
+          <div class="t-avatar t-av-2">👩</div>
+          <div>
+            <div class="t-name">Sneha Kulkarni</div>
+            <div class="t-since">Patient since 2022</div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial-card fade-up">
+        <div class="t-stars">★★★★★</div>
+        <p class="t-quote">"Online booking was so easy, and the reminders are very helpful. Dr. Nair's cardiology consultation gave me real peace of mind. Highly recommended."</p>
+        <div class="t-author">
+          <div class="t-avatar t-av-3">👴</div>
+          <div>
+            <div class="t-name">Rajesh Iyer</div>
+            <div class="t-since">Patient since 2020</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <div class="footer-logo">
+          <div class="logo-icon">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="white"><rect x="11" y="3" width="2" height="18" rx="1"/><rect x="3" y="11" width="18" height="2" rx="1"/></svg>
+          </div>
+          <div class="footer-logo-text">Serenova Health Clinic</div>
+        </div>
+        <p class="footer-tagline">Delivering compassionate, evidence-based healthcare to the people of Pune since 2009.</p>
+      </div>
+      <div class="footer-col">
+        <h5>Services</h5>
+        <ul>
+          <li><a href="#">General Medicine</a></li>
+          <li><a href="#">Cardiology</a></li>
+          <li><a href="#">Neurology</a></li>
+          <li><a href="#">Paediatrics</a></li>
+          <li><a href="#">Diagnostics</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Clinic</h5>
+        <ul>
+          <li><a href="#">About Us</a></li>
+          <li><a href="#">Our Doctors</a></li>
+          <li><a href="#">Patient Portal</a></li>
+          <li><a href="#">Health Blog</a></li>
+          <li><a href="#">Careers</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Contact</h5>
+        <ul>
+          <li><a href="#">12, Koregaon Park Rd, Pune</a></li>
+          <li><a href="tel:+919876543210">+91 98765 43210</a></li>
+          <li><a href="mailto:info@serenovahealth.in">info@serenovahealth.in</a></li>
+          <li><a href="#">Emergency: 1800-000-111</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="footer-copy">© 2025 Serenova Health Clinic. All rights reserved.</div>
+      <div class="footer-links">
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Use</a>
+        <a href="#">Disclaimer</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Nav scroll effect
+  window.addEventListener('scroll', () => {
+    document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 10);
+  });
+
+  // Burger menu
+  const burger = document.getElementById('burger');
+  const mobileMenu = document.getElementById('mobileMenu');
+  let menuOpen = false;
+  burger.addEventListener('click', () => {
+    menuOpen = !menuOpen;
+    mobileMenu.classList.toggle('open', menuOpen);
+    const spans = burger.querySelectorAll('span');
+    if (menuOpen) {
+      spans[0].style.transform = 'rotate(45deg) translate(5px,5px)';
+      spans[1].style.opacity = '0';
+      spans[2].style.transform = 'rotate(-45deg) translate(5px,-5px)';
+    } else {
+      spans.forEach(s => { s.style.transform = ''; s.style.opacity = ''; });
+    }
+  });
+  function closeMobileMenu() {
+    menuOpen = false;
+    mobileMenu.classList.remove('open');
+    burger.querySelectorAll('span').forEach(s => { s.style.transform = ''; s.style.opacity = ''; });
+  }
+
+  // Set min date for appointment
+  const dateInput = document.getElementById('apptDate');
+  if (dateInput) {
+    const today = new Date();
+    const yyyy = today.getFullYear();
+    const mm = String(today.getMonth()+1).padStart(2,'0');
+    const dd = String(today.getDate()).padStart(2,'0');
+    dateInput.min = `${yyyy}-${mm}-${dd}`;
+  }
+
+  // Scroll animations
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), 80);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+  // Stagger siblings
+  document.querySelectorAll('.fade-up').forEach((el, i) => {
+    // Check if it's already visible (hero)
+    if (!el.classList.contains('visible')) {
+      observer.observe(el);
+    }
+  });
+
+  // Form validation & submission
+  function validateField(id, errId, condition) {
+    const el = document.getElementById(id);
+    const err = document.getElementById(errId);
+    if (!condition(el.value)) {
+      el.classList.add('error');
+      if (err) err.classList.add('show');
+      return false;
+    }
+    el.classList.remove('error');
+    if (err) err.classList.remove('show');
+    return true;
+  }
+
+  function submitForm() {
+    const btn = document.getElementById('submitBtn');
+    let valid = true;
+
+    valid &= validateField('firstName', 'firstNameErr', v => v.trim().length >= 2);
+    valid &= validateField('lastName', 'lastNameErr', v => v.trim().length >= 2);
+    valid &= validateField('phone', 'phoneErr', v => /^[\d\s\+\-]{7,15}$/.test(v.trim()));
+    valid &= validateField('department', 'deptErr', v => v !== '');
+    valid &= validateField('apptDate', 'dateErr', v => v !== '');
+    valid &= validateField('apptTime', 'timeErr', v => v !== '');
+
+    const emailVal = document.getElementById('email').value;
+    if (emailVal) {
+      valid &= validateField('email', 'emailErr', v => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v));
+    } else {
+      document.getElementById('email').classList.remove('error');
+      document.getElementById('emailErr').classList.remove('show');
+    }
+
+    if (!valid) return;
+
+    btn.disabled = true;
+    btn.textContent = 'Submitting…';
+
+    setTimeout(() => {
+      document.getElementById('formContent').style.display = 'none';
+      document.getElementById('formSuccess').classList.add('show');
+    }, 1200);
+  }
+
+  function resetForm() {
+    document.getElementById('formContent').style.display = '';
+    document.getElementById('formSuccess').classList.remove('show');
+    ['firstName','lastName','phone','email','department','doctor','apptDate','apptTime','reason'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) { el.value = ''; el.classList.remove('error'); }
+    });
+    document.querySelectorAll('.error-msg').forEach(e => e.classList.remove('show'));
+    const btn = document.getElementById('submitBtn');
+    btn.disabled = false;
+    btn.textContent = 'Confirm Appointment Request';
+  }
+
+  // Real-time validation clearing
+  ['firstName','lastName','phone','email','department','apptDate','apptTime'].forEach(id => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.addEventListener('input', () => {
+      el.classList.remove('error');
+      const errEl = document.getElementById(id + 'Err') || document.getElementById(id.replace(/([A-Z])/g,'$1') + 'Err');
+      if (errEl) errEl.classList.remove('show');
+    });
+    el.addEventListener('change', () => el.classList.remove('error'));
+  });
+</script>
+</body>
+</html>
